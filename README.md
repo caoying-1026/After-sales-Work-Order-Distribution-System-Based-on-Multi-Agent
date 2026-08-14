@@ -22,46 +22,38 @@
 
 ```mermaid
 flowchart TB
-    subgraph U["用户层"]
+    subgraph U["👤 用户层"]
         U1["用户提交售后咨询 / 工单"]
     end
-    subgraph F["前端应用层"]
+
+    subgraph FE["🖥️ 前端层"]
         F1["Vue3 对话界面"]
         F2["Nginx 反向代理"]
     end
-    subgraph A["后端服务层 FastAPI"]
+
+    subgraph BE["⚙️ 后端层 · FastAPI"]
         API["REST API 接口"]
-        INTENT["意图识别引擎"]
-        ORCH["智能体编排器"]
-        BILLING["售后账单 Agent"]
-        TECH["技术支持 Agent"]
-        GENERAL["通用客服 Agent"]
-        ESCALATE["人工升级转接"]
-    end
-    subgraph S["数据与支撑层"]
-        KB["ChromaDB 知识库"]
-        MEM["Redis 记忆缓存"]
-        MON["Prometheus 监控"]
-        LLM["Anthropic LLM"]
+        ORCH["意图识别 → 智能体编排"]
+        AGENTS["售后账单 / 技术支持 / 通用客服"]
+        ESC["人工升级转接"]
     end
 
-    U1 --> F1
-    F1 --> F2
+    subgraph DS["📦 数据与支撑层"]
+        KB["ChromaDB 知识库"]
+        MEM["Redis 记忆"]
+        LLM["LLM 大模型"]
+        MON["Prometheus 监控"]
+    end
+
+    U1 --> F1 --> F2
     F2 --> API
-    API --> INTENT
-    INTENT --> ORCH
-    ORCH --> BILLING
-    ORCH --> TECH
-    ORCH --> GENERAL
-    BILLING --> ESCALATE
-    TECH --> ESCALATE
-    GENERAL --> ESCALATE
-    BILLING --> KB
-    TECH --> KB
-    GENERAL --> KB
-    INTENT --> LLM
+    API --> ORCH
+    ORCH --> AGENTS
+    AGENTS --> ESC
+    AGENTS --> KB
+    AGENTS --> MEM
     ORCH --> LLM
-    API --> MEM
+    AGENTS --> LLM
     API --> MON
 
     classDef user fill:#e8f5e9,stroke:#43a047,color:#1b5e20
@@ -71,9 +63,9 @@ flowchart TB
     classDef infra fill:#eceff1,stroke:#546e7a,color:#263238
     class U1 user
     class F1,F2 front
-    class API,INTENT,ORCH api
-    class BILLING,TECH,GENERAL,ESCALATE agent
-    class KB,MEM,MON,LLM infra
+    class API,ORCH api
+    class AGENTS,ESC agent
+    class KB,MEM,LLM,MON infra
 ```
 
 ### 一次售后请求的处理流程
