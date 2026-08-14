@@ -39,6 +39,7 @@ flowchart LR
     end
 
     subgraph DS["📦 数据与支撑层"]
+        direction LR
         KB["ChromaDB 知识库"]
         MEM["Redis 记忆"]
         LLM["LLM 大模型"]
