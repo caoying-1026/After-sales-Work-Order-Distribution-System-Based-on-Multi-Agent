@@ -98,23 +98,19 @@ flowchart TB
 
 ```text
 aftersales-multiagent-system/
-├── backend/                      # FastAPI 多智能体后端
-│   ├── api/main.py               # FastAPI 入口与全部 REST 接口
-│   ├── agents/                   # 智能体编排器（路由 / 并行 / 降级 / 升级）
-│   ├── core/                     # 意图识别、LLM 工具、Skill 加载
-│   ├── mcp/                      # 知识库 RAG 与工具管理
-│   ├── memory/                   # Redis + ChromaDB 多级记忆
-│   ├── monitor/                  # Prometheus 性能监控
-│   ├── evaluation/               # 端到端评测
-│   ├── skills/                   # 业务规范（SKILL.md，热加载）
-│   ├── config/                   # Nginx / Prometheus 部署配置
-│   ├── data/demo_docs/           # 示例知识文档
-│   ├── Dockerfile
-│   └── docker-compose.yml
-└── frontend/                     # Vue3 + Vite 前端
-    ├── src/App.vue               # 对话界面 / 知识库面板 / Skill 面板
-    ├── src/lib/backends.js       # 后端 API 调用封装
-    └── vite.config.js            # 开发代理（/api/python → 后端）
+├── api/                        # FastAPI 入口与全部 REST 接口
+├── agents/                     # 智能体编排器（路由 / 并行 / 降级 / 升级）
+├── core/                       # 意图识别、LLM 工具、Skill 加载
+├── mcp/                        # 知识库 RAG 与工具管理
+├── memory/                     # Redis + ChromaDB 多级记忆
+├── monitor/                    # Prometheus 性能监控
+├── evaluation/                 # 端到端评测
+├── skills/                     # 业务规范（SKILL.md，热加载）
+├── config/                     # Nginx / Prometheus 部署配置
+├── data/demo_docs/             # 示例知识文档
+├── src/                        # 前端 Vue3 + Vite 对话界面（与后端同仓）
+├── Dockerfile
+└── docker-compose.yml
 ```
 
 ## 快速开始
@@ -122,7 +118,6 @@ aftersales-multiagent-system/
 ### 方式一：Docker Compose 一键部署（推荐）
 
 ```bash
-cd backend
 cp .env.example .env      # 填入 ANTHROPIC_API_KEY
 docker compose up -d --build
 ```
@@ -141,7 +136,6 @@ docker compose up -d --build
 后端：
 
 ```bash
-cd backend
 python -m venv .venv
 pip install -r requirements.txt
 cp .env.example .env
@@ -151,7 +145,6 @@ uvicorn api.main:app --reload
 前端：
 
 ```bash
-cd frontend
 npm install
 npm run dev      # http://localhost:5173，/api/python 自动代理到后端 8000
 ```
@@ -174,7 +167,7 @@ npm run dev      # http://localhost:5173，/api/python 自动代理到后端 800
 
 ## 环境变量
 
-关键配置项见 `backend/.env.example`，主要包括：
+关键配置项见 `.env.example`，主要包括：
 
 - `ANTHROPIC_API_KEY`：LLM 接口密钥（必填）
 - `ANTHROPIC_BASE_URL`：可选，兼容 Anthropic 协议的第三方地址（如 DeepSeek）

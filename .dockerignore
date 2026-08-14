@@ -23,3 +23,8 @@ data/.DS_Store
 
 config/grafana/
 config/nginx/ssl/
+
+# ---- 前端 (Node) ----
+node_modules/
+dist/
+*.local

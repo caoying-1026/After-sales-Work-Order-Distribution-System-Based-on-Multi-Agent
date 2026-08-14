@@ -22,3 +22,11 @@ logs/
 *.swo
 .DS_Store
 Thumbs.db
+
+
+# ---- 前端 (Vue3 / Node) ----
+node_modules/
+dist/
+*.local
+.DS_Store
+Thumbs.db
