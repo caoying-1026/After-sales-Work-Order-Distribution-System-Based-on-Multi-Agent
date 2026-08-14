@@ -21,7 +21,7 @@
 ## 系统架构
 
 ```mermaid
-flowchart TB
+flowchart LR
     subgraph U["👤 用户层"]
         U1["用户提交售后咨询 / 工单"]
     end
@@ -33,8 +33,8 @@ flowchart TB
 
     subgraph BE["⚙️ 后端层 · FastAPI"]
         API["REST API 接口"]
-        ORCH["意图识别 → 智能体编排"]
-        AGENTS["售后账单 / 技术支持 / 通用客服"]
+        ORCH["意图识别 + 智能体编排"]
+        AGENTS["专属智能体群"]
         ESC["人工升级转接"]
     end
 
@@ -45,14 +45,14 @@ flowchart TB
         MON["Prometheus 监控"]
     end
 
-    U1 --> F1 --> F2
+    U1 --> F1
+    F1 --> F2
     F2 --> API
     API --> ORCH
     ORCH --> AGENTS
     AGENTS --> ESC
     AGENTS --> KB
     AGENTS --> MEM
-    ORCH --> LLM
     AGENTS --> LLM
     API --> MON
 
